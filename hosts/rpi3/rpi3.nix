@@ -43,6 +43,8 @@
   # Kernel params
   boot.kernelParams = [ "panic=30" "boot.panic_on_fail" ];
 
+  services.watchdogd.enable = true;
+  boot.kernel.sysctl."vm.panic_on_oom" = 1;
 
   # Swap
   boot.kernel.sysctl."vm.swappiness" = 30;

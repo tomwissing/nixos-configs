@@ -7,8 +7,8 @@
   
   users.users.adguardhome = {
     isSystemUser = true;
-    extraGroups = ["acme"];
     group = "adguardhome";
+    extraGroups = ["acme"];
   };
   users.groups.adguardhome = {};
 

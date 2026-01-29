@@ -38,6 +38,7 @@
           ./modules/common.nix
           ./modules/services/miniflux.nix
           ./modules/services/adguardhome.nix
+          ./modules/services/unbound.nix
           ./modules/services/i2pd.nix
           ./modules/services/vaultwarden.nix
           ./modules/services/bitcoind.nix

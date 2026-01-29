@@ -5,7 +5,7 @@
     enable = true;
 
     prune = 5500;
-    dbCache = 300;
+    dbCache = 175;
 
     extraConfig = ''
       server=1
