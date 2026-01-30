@@ -11,13 +11,13 @@ in
     enable = true;
 
     prune = 5500;
-    dbCache = 150;
+    dbCache = 64;
 
     extraConfig =
     ''
       server=1
       txindex=0
-      maxconnections=20
+      maxconnections=16
       assumevalid=00000000000000000000df86ba53f196c6fc1737ef9845c21be57c2a11f00375
       blocksonly=1
       bind=[::]
