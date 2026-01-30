@@ -2,12 +2,10 @@
 {
   services.i2pd = {
     enable = true;
-    enableIPv4 = false;
     enableIPv6 = true;
     port = 9111;
     ntcp2.published = true;
-    # unstable only
-    #ssu2.published = true;
+    ssu2.published = true;
     bandwidth = 2048;
     proto.http.enable = true;
     proto.httpProxy = {
