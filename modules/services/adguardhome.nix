@@ -24,7 +24,7 @@
         http3 = true;
         useACMEHost = "sh.tomwissing.de";
         locations."/dns-query" = {
-          proxyPass = "http://127.0.0.1:8000";
+          proxyPass = "http://127.0.0.1:3000";
           proxyWebsockets = true; # allows live updates if needed
           extraConfig = ''
             add_header Alt-Svc 'h3=":443"; ma=86400';
