@@ -12,10 +12,7 @@
   networking.tempAddresses = "enabled";
 
   # Hostname
-  networking.hostName = "nixos_rpi3";
-
-  # Networking
-  networking.networkmanager.enable = true;
+  networking.hostName = "nixosrpi3";
 
   # Timezone
   time.timeZone = "Europe/Berlin";
