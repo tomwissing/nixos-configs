@@ -1,13 +1,17 @@
 let
-  rpi3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG6WWrTCNaWrfLxAu38V61dotVK7VAQMrlCSgYdoNLpq";
-  wsl = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICCYThDgNq+o/1qCWm1yXL7uJ/AACM1bNBXNZBxeCkX9";
-  systems = [ rpi3 wsl ];
+  tom-wsl = builtins.readFile ./ssh/users/tom-wsl.pub;
+  tom-win = builtins.readFile ./ssh/users/tom-win.pub;
+  tom-zorn = builtins.readFile ./ssh/users/tom-zorn.pub;
+  tom = [ tom-wsl tom-win tom-zorn ];
+
+  rpi3 = builtins.readFile ./ssh/hosts/rpi3.pub;
+  systems = [ rpi3 ];
 in
 {
-  "miniflux.age".publicKeys = systems;
-  "cloudflare-dns.age".publicKeys = systems;
-  "acme-email.age".publicKeys = systems;
-  "rpi3-wireguard-pr.age".publicKeys = systems;
-  "rpi3-wireguard-sh.age".publicKeys = systems;
-  "vaultwarden.age".publicKeys = systems;
+  "miniflux.age".publicKeys = [rpi3] ++ tom;
+  "cloudflare-dns.age".publicKeys = [rpi3] ++ tom;
+  "acme-email.age".publicKeys = [rpi3] ++ tom;
+  "rpi3-wireguard-pr.age".publicKeys = [rpi3] ++ tom;
+  "rpi3-wireguard-sh.age".publicKeys = [rpi3] ++ tom;
+  "vaultwarden.age".publicKeys = [rpi3] ++ tom;
 }

@@ -7,6 +7,12 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     initialPassword = "tom";
+
+    openssh.authorizedKeys.keyFiles = [
+      ../secrets/ssh/users/tom-wsl.pub
+      ../secrets/ssh/users/tom-win.pub
+      ../secrets/ssh/users/tom-zorn.pub
+    ];
   };
 
   # Packages common to all machines
