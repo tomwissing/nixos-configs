@@ -44,18 +44,12 @@
 
   boot.kernel.sysctl = {
     "vm.panic_on_oom" = 1;
-    "vm.dirty_background_ratio" = 5;
-    "vm.dirty_ratio" = 10;
-    "vm.vfs_cache_pressure" = 200;
   };
 
   # Swap
-  boot.kernel.sysctl."vm.swappiness" = 30;
-  swapDevices = [ { device = "/swapfile"; size = 2048; } ];
   zramSwap = {
     enable = true;
     algorithm = "lz4";
-    memoryPercent = 35;
   };
 
   # System services
