@@ -1,7 +1,8 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, pkgsUnstable, ... }:
 {
   services.i2pd = {
     enable = true;
+    package = pkgsUnstable.i2pd;
     enableIPv6 = true;
     port = 9111;
     ntcp2.published = true;

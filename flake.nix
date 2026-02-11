@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
     nixos-wsl = {
       url = "github:nix-community/nixos-wsl/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,9 +30,14 @@
         ];
       };
 
-      rpi3 = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; } ;
+      rpi3 = let
         system = "aarch64-linux";
+      in nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          pkgsUnstable = import inputs.nixpkgs-unstable-small { inherit system; };
+          inherit inputs;
+        };
         modules = [
           agenix.nixosModules.default
           ./hosts/rpi3/rpi3.nix
