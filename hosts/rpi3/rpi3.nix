@@ -55,10 +55,7 @@
   # System services
   services.openssh = {
     enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      PermitRootLogin = "no";
-    };
+    settings.PasswordAuthentication = false;
   };
 
   services.fstrim.enable = true;
