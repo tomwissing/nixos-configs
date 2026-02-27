@@ -16,12 +16,21 @@
   };
 
   outputs = { self, nixpkgs, agenix, ... } @inputs:
+  let
+    pkgsUnstableFor = system: import inputs.nixpkgs-unstable-small { inherit system; };
+    mkSpecialArgs = system: {
+      pkgsUnstable = pkgsUnstableFor system;
+      inherit inputs;
+    };
+  in
   {
     # NixOS configurations per machine
     nixosConfigurations = {
-      wsl = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; } ;
+      wsl = let
         system = "x86_64-linux";
+      in nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = mkSpecialArgs system;
         modules = [
           inputs.nixos-wsl.nixosModules.default
           agenix.nixosModules.default
@@ -34,10 +43,7 @@
         system = "aarch64-linux";
       in nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = {
-          pkgsUnstable = import inputs.nixpkgs-unstable-small { inherit system; };
-          inherit inputs;
-        };
+        specialArgs = mkSpecialArgs system;
         modules = [
           agenix.nixosModules.default
           ./hosts/rpi3/rpi3.nix
@@ -48,6 +54,7 @@
           ./modules/services/i2pd.nix
           ./modules/services/vaultwarden.nix
           ./modules/services/bitcoind.nix
+          ./modules/services/qbittorrent-nox.nix
         ];
       };
     };
