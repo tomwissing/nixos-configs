@@ -10,15 +10,13 @@ in
   services.bitcoind.main = {
     enable = true;
 
-    prune = 5500;
-    dbCache = 96;
+    prune = 10240;
+    dbCache = 4;
 
     extraConfig =
     ''
       server=1
-      txindex=0
       maxconnections=16
-      assumevalid=00000000000000000000df86ba53f196c6fc1737ef9845c21be57c2a11f00375
       blocksonly=1
       bind=[::]
     ''
