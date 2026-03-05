@@ -16,9 +16,10 @@ in
     extraConfig =
     ''
       server=1
-      maxconnections=16
+      maxconnections=8
       blocksonly=1
       bind=[::]
+      natpmp=0
     ''
     + lib.optionalString sam.enable ''
         i2psam=${sam.address}:${toString sam.port}
