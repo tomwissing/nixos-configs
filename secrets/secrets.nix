@@ -2,7 +2,8 @@ let
   tom-wsl = builtins.readFile ./ssh/users/tom-wsl.pub;
   tom-win = builtins.readFile ./ssh/users/tom-win.pub;
   tom-zorn = builtins.readFile ./ssh/users/tom-zorn.pub;
-  tom = [ tom-wsl tom-win tom-zorn ];
+  tom-iphone17 = builtins.readFile ./ssh/users/tom-iphone17.pub;
+  tom = [ tom-wsl tom-win tom-zorn tom-iphone17 ];
 
   rpi3 = builtins.readFile ./ssh/hosts/rpi3.pub;
   systems = [ rpi3 ];

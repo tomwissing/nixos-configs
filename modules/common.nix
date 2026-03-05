@@ -12,6 +12,7 @@
       ../secrets/ssh/users/tom-wsl.pub
       ../secrets/ssh/users/tom-win.pub
       ../secrets/ssh/users/tom-zorn.pub
+      ../secrets/ssh/users/tom-iphone17.pub
     ];
   };
 
