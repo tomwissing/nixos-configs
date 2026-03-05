@@ -8,6 +8,10 @@
       server = {
         interface =  "127.0.0.1";
         port = 5353;
+
+        serve-expired = "yes";
+        serve-expired-client-timeout = 0;
+        prefetch = "yes";
       };
     };
   };
