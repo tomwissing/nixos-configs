@@ -11,7 +11,7 @@ in
     enable = true;
 
     prune = 10240;
-    dbCache = 4;
+    dbCache = 16;
 
     extraConfig =
     ''
