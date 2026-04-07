@@ -54,7 +54,7 @@
           ./modules/services/i2pd.nix
           ./modules/services/vaultwarden.nix
           ./modules/services/bitcoind.nix
-          ./modules/services/qbittorrent-nox.nix
+          # ./modules/services/qbittorrent-nox.nix
         ];
       };
     };
