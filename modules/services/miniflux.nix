@@ -18,6 +18,8 @@
       DATABASE_MAX_CONNS = 5;
       LOG_LEVEL = "error";
       CLEANUP_FREQUENCY_HOURS = 48;
+
+      FETCHER_ALLOW_PRIVATE_NETWORKS=1;
     };
     adminCredentialsFile = config.age.secrets.miniflux.path;
   };
