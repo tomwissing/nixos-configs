@@ -34,6 +34,7 @@
 
   fileSystems."/boot" = {
     device = "/mnt/sd-boot/boot";
+    fsType = "ext4";
     options = [ "bind" ];
   };
 
