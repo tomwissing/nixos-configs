@@ -6,6 +6,7 @@
   networking.wg-quick.interfaces.wg0 = {
     # Bring up interface at boot
     autostart = true;
+    table = "off";
 
     # Interface configuration
     address = [ "10.7.0.5/24" ];
@@ -17,7 +18,7 @@
       {
         publicKey = "e1npc4hAQkm4BevEdUJ9ABW5L9C3duekoQYtXa3v9SQ=";
         presharedKeyFile = config.age.secrets.wireguard-sh.path;
-        allowedIPs = [ "10.7.0.0/24" ];
+        allowedIPs = [ "0.0.0.0/0" ];
         endpoint = "31.207.89.98:51820";
         persistentKeepalive = 25;
       }

@@ -5,9 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
 
-    nixpkgs-wsl.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixos-wsl = {
-      url = "github:nix-community/nixos-wsl/release-25.11";
+      url = "github:nix-community/nixos-wsl/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
       };
     agenix = {
