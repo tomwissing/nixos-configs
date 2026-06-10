@@ -9,7 +9,11 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - uses: DeterminateSystems/flake-checker-action@main
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
+        with:
+          diagnostic-endpoint: ""
+          use-flakehub: false
       - run: nix flake check --all-systems --keep-going
