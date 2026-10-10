@@ -11,7 +11,10 @@
   wsl.defaultUser = "tom";
   wsl.useWindowsDriver = true;
 
+  virtualisation.docker.enable = true;
+
    users.users.tom = {
+    extraGroups = [ "docker" ];
     packages = with pkgs; [
       fastfetchMinimal
       git
