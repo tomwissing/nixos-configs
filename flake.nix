@@ -50,11 +50,12 @@
           ./hosts/rpi3/rpi3.nix
           ./modules/common.nix
           ./modules/services/miniflux.nix
-          ./modules/services/adguardhome.nix
-          ./modules/services/unbound.nix
+          # ./modules/services/adguardhome.nix
+          # ./modules/services/unbound.nix
           ./modules/services/i2pd.nix
           ./modules/services/vaultwarden.nix
           ./modules/services/bitcoind.nix
+          ./modules/services/home-assistant.nix
           # ./modules/services/qbittorrent-nox.nix
         ];
       };
