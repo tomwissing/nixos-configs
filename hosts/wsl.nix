@@ -10,6 +10,7 @@
   wsl.enable = true;
   wsl.defaultUser = "tom";
   wsl.useWindowsDriver = true;
+  wsl.interop.register = true;
 
   virtualisation.docker.enable = true;
 
