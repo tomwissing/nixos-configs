@@ -12,6 +12,7 @@
   time.timeZone = "Europe/Berlin";
   services.xserver.xkb.layout = "de";
 
+  age.identityPaths = [ "/root/.ssh/host_ed25519_key" ];
 
   # Bootloader (ESP on sda3 is shared only with NixOS; Windows boots from the NVMe ESP)
   boot.loader.systemd-boot = {
