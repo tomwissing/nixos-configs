@@ -72,6 +72,7 @@
           inputs.disko.nixosModules.default
           agenix.nixosModules.default
           ./hosts/msi-thin-gf63-12vf/msi-thin-gf63-12vf.nix
+          ./modules/profiles/desktop.nix
           ./modules/common.nix
         ];
       };
