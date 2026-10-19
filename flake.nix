@@ -12,7 +12,10 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.darwin.follows = "";
+    };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -57,6 +60,19 @@
           ./modules/services/bitcoind.nix
           ./modules/services/home-assistant.nix
           # ./modules/services/qbittorrent-nox.nix
+        ];
+      };
+
+      msi-thin-gf63-12vf = let
+        system = "x86_64-linux";
+      in nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = mkSpecialArgs system;
+        modules = [
+          inputs.disko.nixosModules.default
+          agenix.nixosModules.default
+          ./hosts/msi-thin-gf63-12vf/msi-thin-gf63-12vf.nix
+          ./modules/common.nix
         ];
       };
     };
