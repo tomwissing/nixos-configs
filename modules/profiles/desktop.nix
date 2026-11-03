@@ -1,11 +1,15 @@
 { pkgs, pkgsUnstable, ... }:
 
 {
-  programs.firefox = {
-    enable = true;
-    package = pkgs.firefox-esr;
-    # policies = { };
+  programs = {
+    firefox = {
+      enable = true;
+      package = pkgs.firefox-esr;
+      # policies = { };
+    };
+    gnupg.agent.enable = true;
   };
+  
 
   environment.systemPackages = [
     pkgs.bitwarden-desktop
