@@ -43,11 +43,29 @@
     };
   };
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
+  services.displayManager = {
+    plasma-login-manager.enable = true;
+    autoLogin = {
+      enable = true;
+      user = "tom";
+    };
   };
   services.desktopManager.plasma6.enable = true;
+
+  # Unlock KWallet with the LUKS password on autologin (see NixOS wiki: KDE)
+  systemd.services.plasmalogin.serviceConfig.KeyringMode = "inherit";
+  security.pam.services.plasmalogin-autologin.rules.auth = {
+    systemd_loadkey = {
+      order = 0;
+      control = "optional";
+      modulePath = "${pkgs.systemd}/lib/security/pam_systemd_loadkey.so";
+    };
+    plasmalogin = {
+      order = 1;
+      control = "include";
+      modulePath = "plasmalogin";
+    };
+  };
 
   environment.systemPackages = with pkgs; [
     git
