@@ -3,7 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
-    nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    # Pinned: nixos-unstable-small has broken opencode 2.2.5 FOD hash
+    # (NixOS/nixpkgs#582673, fix PR #582675 unmerged). 91230cf is the
+    # first parent of the breaking merge f12bf47 (opencode 2.2.1, bun 1.4.2,
+    # cached). Revert to branch after the fix lands.
+    nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/91230cf4a7d7f0f6c5d98b1bc69396fd3981a5dd";
 
     nixos-wsl = {
       url = "github:nix-community/nixos-wsl/release-26.05";
