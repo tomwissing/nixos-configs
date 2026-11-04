@@ -2,7 +2,7 @@
 #   p1  16M      MSR            (existing, untouched)
 #   p2  804.5G   BitLocker data (existing, untouched - no content = never formatted)
 #   p3  1G       ESP  -> /boot  (relocated into the former free-space hole)
-#   p4  148.4G   LUKS2 -> vg0 { root 40G, swap 8G, home rest }
+#   p4  148.4G   LUKS2 -> vg0 { root 120G, swap 8G, home rest }
 # destroy = false guarantees disko never wipefs's this disk (protects p2).
 # alignment = 1 keeps sgdisk --align-end from moving the exact existing boundaries.
 {
@@ -76,7 +76,7 @@
       type = "lvm_vg";
       lvs = {
         root = {
-          size = "40G";
+          size = "120G";
           content = {
             type = "filesystem";
             format = "ext4";
