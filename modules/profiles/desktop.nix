@@ -1,6 +1,8 @@
 { pkgs, pkgsUnstable, ... }:
 
 {
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   programs = {
     firefox = {
       enable = true;
