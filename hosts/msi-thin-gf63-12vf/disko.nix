@@ -2,7 +2,8 @@
 #   p1  16M      MSR            (existing, untouched)
 #   p2  804.5G   BitLocker data (existing, untouched - no content = never formatted)
 #   p3  1G       ESP  -> /boot  (relocated into the former free-space hole)
-#   p4  148.4G   LUKS2 -> vg0 { root 120G, swap 8G, home rest }
+#   p4  148.4G   LUKS2 -> btrfs (subvols @ @home @nix @snapshots, 8G swapfile,
+#             single shared space pool - no more LVM boundary exhaustion)
 # destroy = false guarantees disko never wipefs's this disk (protects p2).
 # alignment = 1 keeps sgdisk --align-end from moving the exact existing boundaries.
 {
@@ -64,39 +65,32 @@
                 "--key-size 512"
               ];
               content = {
-                type = "lvm_pv";
-                vg = "vg0";
+                type = "btrfs";
+                extraArgs = [ "-f" "-L" "nixos" ];
+                subvolumes = {
+                  "@" = {
+                    mountpoint = "/";
+                    mountOptions = [ "compress-force=zstd:3" "noatime" "ssd" "space_cache=v2" ];
+                  };
+                  "@home" = {
+                    mountpoint = "/home";
+                    mountOptions = [ "compress-force=zstd:3" "noatime" "ssd" "space_cache=v2" ];
+                  };
+                  "@nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = [ "compress-force=zstd:3" "noatime" "ssd" "space_cache=v2" ];
+                  };
+                  "@snapshots" = {
+                    mountpoint = "/.snapshots";
+                    mountOptions = [ "noatime" "ssd" "space_cache=v2" ];
+                  };
+                  "@swap" = {
+                    mountpoint = "/swap";
+                    swap.swapfile.size = "8G";
+                  };
+                };
               };
             };
-          };
-        };
-      };
-    };
-    lvm_vg.vg0 = {
-      type = "lvm_vg";
-      lvs = {
-        root = {
-          size = "120G";
-          content = {
-            type = "filesystem";
-            format = "ext4";
-            mountpoint = "/";
-            mountOptions = [ "noatime" ];
-          };
-        };
-        swap = {
-          size = "8G";
-          content = {
-            type = "swap";
-          };
-        };
-        home = {
-          size = "100%";
-          content = {
-            type = "filesystem";
-            format = "ext4";
-            mountpoint = "/home";
-            mountOptions = [ "noatime" ];
           };
         };
       };
