@@ -25,7 +25,10 @@
 
   outputs = { self, nixpkgs, agenix, ... } @inputs:
   let
-    pkgsUnstableFor = system: import inputs.nixpkgs-unstable-small { inherit system; };
+    pkgsUnstableFor = system: import inputs.nixpkgs-unstable-small {
+      inherit system;
+      config.allowUnfree = true;
+    };
     mkSpecialArgs = system: {
       pkgsUnstable = pkgsUnstableFor system;
       inherit inputs;

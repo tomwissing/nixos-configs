@@ -12,7 +12,6 @@
     gnupg.agent.enable = true;
   };
   
-
   environment.systemPackages = [
     pkgs.bitwarden-desktop
     pkgs.libreoffice
@@ -20,5 +19,6 @@
 
     pkgsUnstable.opencode
     pkgsUnstable.pi-coding-agent
+    pkgsUnstable.chatgpt
   ];
 }
