@@ -17,4 +17,5 @@ in
   "rpi3-wireguard-pr.age".publicKeys = systems ++ tom;
   "rpi3-wireguard-sh.age".publicKeys = systems ++ tom;
   "vaultwarden.age".publicKeys = systems ++ tom;
+  "home-assistant-identifiers.age".publicKeys = systems ++ tom;
 }

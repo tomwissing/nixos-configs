@@ -1,6 +1,12 @@
 { config, pkgs, lib, ... }:
 
 {
+  imports = [
+    ./home-assistant-solar.nix
+    ./home-assistant-home.nix
+    ./home-assistant-private.nix
+  ];
+
   services.home-assistant = {
     enable = true;
 
@@ -9,6 +15,7 @@
       "default_config"
       "esphome"
       "google_translate"
+      "growatt_server"
       "isal"
       "met"
       "radio_browser"
