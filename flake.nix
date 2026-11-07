@@ -80,6 +80,38 @@
           ./modules/common.nix
         ];
       };
+
+      # Acer Aspire Switch 10 E SW3-013 (Bay Trail tablet, 32-bit UEFI).
+      # Built and deployed from this machine - the tablet never builds.
+      switch10e = let
+        system = "x86_64-linux";
+      in nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = mkSpecialArgs system;
+        modules = [
+          inputs.disko.nixosModules.default
+          agenix.nixosModules.default
+          ./hosts/switch10e/switch10e.nix
+          ./modules/common.nix
+        ];
+      };
+
+      # Live installer for the Acer Aspire Switch 10 E SW3-013
+      # (32-bit UEFI, so the image must be booted by i386-efi GRUB).
+      #   nix build .#nixosConfigurations.switch10e-iso.config.system.build.isoImage
+      switch10e-iso = let
+        system = "x86_64-linux";
+      in nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = mkSpecialArgs system;
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+          ./hosts/switch10e/iso.nix
+          # Gives the live session the `tom` user with our SSH keys, plus
+          # flakes/nix-command for running nixos-install over ssh.
+          ./modules/common.nix
+        ];
+      };
     };
   };
 }
