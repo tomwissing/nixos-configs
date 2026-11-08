@@ -178,6 +178,7 @@ in
     vim
     htop
     efibootmgr
+    usbutils
     batteryIndicator
   ];
 
