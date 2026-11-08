@@ -9,6 +9,59 @@
 #     --target-host tom@switch10e --use-remote-sudo
 { config, pkgs, lib, ... }:
 
+let
+  batteryIndicator = pkgs.writeShellApplication {
+    name = "switch10e-battery-indicator";
+    runtimeInputs = [ pkgs.xfconf pkgs.xfce4-panel pkgs.gnugrep pkgs.coreutils ];
+    text = ''
+      # Wait for the stock top panel to be created on a new user account.
+      panel=/panels/panel-1/plugin-ids
+      ready=false
+      for ((attempt = 0; attempt < 20; attempt++)); do
+        if ids=$(xfconf-query -c xfce4-panel -p "$panel" 2>/dev/null); then
+          ready=true
+          break
+        fi
+        sleep 1
+      done
+      "$ready" || exit 1
+
+      xfconf-query -c xfce4-power-manager \
+        -p /xfce4-power-manager/show-panel-label -n -t int -s 1
+
+      # Keep the user's existing items and avoid adding the indicator twice.
+      mapfile -t ids < <(printf '%s\n' "$ids" | grep -E '^[0-9]+$')
+      for id in "''${ids[@]}"; do
+        if [[ $(xfconf-query -c xfce4-panel -p "/plugins/plugin-$id") == power-manager-plugin ]]; then
+          exit 0
+        fi
+      done
+      id=1
+      while xfconf-query -c xfce4-panel -p "/plugins/plugin-$id" >/dev/null 2>&1; do
+        id=$((id + 1))
+      done
+      xfconf-query -c xfce4-panel -p "/plugins/plugin-$id" \
+        -n -t string -s power-manager-plugin
+
+      # Place it before the clock, or at the end if there is no clock.
+      args=()
+      inserted=false
+      for existing in "''${ids[@]}"; do
+        if ! "$inserted" && [[ $(xfconf-query -c xfce4-panel -p "/plugins/plugin-$existing") == clock ]]; then
+          args+=(-t int -s "$id")
+          inserted=true
+        fi
+        args+=(-t int -s "$existing")
+      done
+      if ! "$inserted"; then
+        args+=(-t int -s "$id")
+      fi
+      xfconf-query -c xfce4-panel -p "$panel" -a "''${args[@]}"
+      # The running panel reads its plugin list at startup.
+      xfce4-panel --restart >/dev/null 2>&1 &
+    '';
+  };
+in
 {
   imports = [
     ./disko.nix
@@ -79,6 +132,15 @@
     };
   };
 
+  environment.etc."xdg/autostart/switch10e-battery-indicator.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Battery indicator
+    Exec=${batteryIndicator}/bin/switch10e-battery-indicator
+    OnlyShowIn=XFCE;
+    Terminal=false
+  '';
+
   # --- Audio / Bluetooth / battery -------------------------------------
   # ALC5640 over Intel SST, Bluetooth on the same RTL8723BS chip.
   services.pipewire = {
@@ -114,6 +176,7 @@
     vim
     htop
     efibootmgr
+    batteryIndicator
   ];
 
   # TODO: accelerometer (Kionix KXCJ9) auto-rotation is likely wrong or
