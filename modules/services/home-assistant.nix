@@ -33,6 +33,45 @@
       "automation ui" = "!include automations.yaml";
       "scene ui" = "!include scenes.yaml";
       "script ui" = "!include scripts.yaml";
+
+      # The classic Growatt API is rate limited. Disable automatic polling in
+      # each classic-auth Growatt entry's System options, then refresh each
+      # entry every 30 minutes, staggered by 15 minutes. Updating one entity
+      # refreshes the coordinator for its whole config entry.
+      automation = [
+        {
+          id = "growatt_classic_poll_sph";
+          alias = "Growatt classic polling · SPH";
+          description = "Refresh the classic-auth SPH every 30 minutes.";
+          trigger = [{
+            platform = "time_pattern";
+            minutes = "/30";
+          }];
+          action = [{
+            action = "homeassistant.update_entity";
+            target.entity_id = "sensor.__growatt_sph_id___pv_gesamtleistung";
+          }];
+          mode = "single";
+        }
+        {
+          id = "growatt_classic_poll_balkonkraftwerk";
+          alias = "Growatt classic polling · Balkonkraftwerk";
+          description = "Refresh the classic-auth Balkonkraftwerk every 30 minutes, offset from the SPH.";
+          trigger = [{
+            platform = "time_pattern";
+            minutes = "/15";
+          }];
+          condition = [{
+            condition = "template";
+            value_template = "{{ now().minute in [15, 45] }}";
+          }];
+          action = [{
+            action = "homeassistant.update_entity";
+            target.entity_id = "sensor.balkonkraftwerk_total_ausgangsleistung";
+          }];
+          mode = "single";
+        }
+      ];
     };
   };
 
