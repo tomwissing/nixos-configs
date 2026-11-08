@@ -169,6 +169,8 @@ in
     dates = "weekly";
     options = "--delete-older-than 14d";
   };
+  # Deduplicate the store daily at low priority, only on AC power.
+  nix.optimise.automatic = true;
   documentation.doc.enable = false;
   documentation.nixos.enable = false;
 
