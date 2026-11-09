@@ -5,8 +5,9 @@
 #   Kionix KXCJ9 accelerometer
 #
 # Mirrors what nixos-generate-config would emit, with the Bay Trail bits
-# called out. Everything here is built into the stock 6.18 kernel
-# (nixpkgs' autoModules), so no kernel patching is required.
+# called out. Everything here is built into the kernel via nixpkgs'
+# autoModules, so no kernel patching is required - which holds both for the
+# stock 6.18 default and for the mainline 7.4-rc1 the host now runs.
 { config, lib, modulesPath, ... }:
 
 {
