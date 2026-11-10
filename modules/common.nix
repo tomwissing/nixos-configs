@@ -24,7 +24,12 @@ in
 
   # Packages common to all machines
   environment.systemPackages = with pkgs; [
-    vim
     htop
   ];
+  
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    vimAlias = true;
+  };
 }
