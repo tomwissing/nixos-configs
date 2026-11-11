@@ -26,4 +26,6 @@ in
   "rpi3-wireguard-sh.age".publicKeys = systems ++ tom;
   "vaultwarden.age".publicKeys = systems ++ tom;
   "home-assistant-identifiers.age".publicKeys = systems ++ tom;
+  "bitlocker-windows.age".publicKeys = [ msi ] ++ tom;
+  "bitlocker-data.age".publicKeys = [ msi ] ++ tom;
 }

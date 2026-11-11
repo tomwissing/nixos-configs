@@ -9,6 +9,7 @@
   imports = [
     ./disko.nix
     ./hardware-configuration.nix
+    ./bitlocker.nix
   ];
 
   networking.hostName = "msi-thin-gf63-12vf";
