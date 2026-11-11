@@ -10,10 +10,25 @@
 { config, pkgs, lib, pkgsMainline, ... }:
 
 let
-  batteryIndicator = pkgs.writeShellApplication {
-    name = "switch10e-battery-indicator";
-    runtimeInputs = [ pkgs.xfconf pkgs.xfce4-panel pkgs.gnugrep pkgs.coreutils ];
+  sessionSetup = pkgs.writeShellApplication {
+    name = "switch10e-session-setup";
+    runtimeInputs = [ pkgs.xfconf pkgs.xfce4-panel pkgs.gnugrep pkgs.coreutils pkgs.xset ];
     text = ''
+      # Keep the display awake and prevent XFCE from suspending on inactivity.
+      for source in ac battery; do
+        xfconf-query -c xfce4-power-manager \
+          -p "/xfce4-power-manager/inactivity-on-$source" -n -t uint -s 0
+        xfconf-query -c xfce4-power-manager \
+          -p "/xfce4-power-manager/lid-action-on-$source" -n -t uint -s 0
+        # XFCE 4.20 uses 9 (seconds) to mean never dim the backlight.
+        xfconf-query -c xfce4-power-manager \
+          -p "/xfce4-power-manager/brightness-on-$source" -n -t uint -s 9
+      done
+      xfconf-query -c xfce4-power-manager \
+        -p /xfce4-power-manager/dpms-enabled -n -t bool -s false
+      # X11 screen blanking is independent of DPMS and xfce4-screensaver.
+      xset s off
+
       # Wait for the stock top panel to be created on a new user account.
       panel=/panels/panel-1/plugin-ids
       ready=false
@@ -134,7 +149,10 @@ in
   # disk encryption to type a password for.
   services.xserver = {
     enable = true;
-    desktopManager.xfce.enable = true;
+    desktopManager.xfce = {
+      enable = true;
+      enableScreensaver = false;
+    };
     displayManager.lightdm.enable = true;
   };
   services.displayManager = {
@@ -145,11 +163,31 @@ in
     };
   };
 
-  environment.etc."xdg/autostart/switch10e-battery-indicator.desktop".text = ''
+  # Ignore lid-close and idle sleep requests, while preserving the power
+  # button's normal shutdown behavior.
+  services.logind.settings.Login = {
+    IdleAction = "ignore";
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
+    HandleSuspendKey = "ignore";
+    HandleHibernateKey = "ignore";
+  };
+
+  environment.etc."xdg/autostart/switch10e-session-setup.desktop".text = ''
     [Desktop Entry]
     Type=Application
-    Name=Battery indicator
-    Exec=${batteryIndicator}/bin/switch10e-battery-indicator
+    Name=Switch 10 E session setup
+    Exec=${sessionSetup}/bin/switch10e-session-setup
+    OnlyShowIn=XFCE;
+    Terminal=false
+  '';
+
+  environment.etc."xdg/autostart/switch10e-firefox.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Home Assistant kiosk
+    Exec=${pkgs.firefox-esr}/bin/firefox --kiosk https://home.sh.tomwissing.de
     OnlyShowIn=XFCE;
     Terminal=false
   '';
@@ -192,7 +230,6 @@ in
     htop
     efibootmgr
     usbutils
-    batteryIndicator
   ];
 
   # TODO: accelerometer (Kionix KXCJ9) auto-rotation is likely wrong or
