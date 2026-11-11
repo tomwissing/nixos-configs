@@ -1,4 +1,10 @@
-{ config, pkgs, lib, pkgsUnstable, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  pkgsUnstable,
+  ...
+}:
 {
   services.i2pd = {
     enable = true;
@@ -19,7 +25,7 @@
       "http://i2p-projekt.i2p/hosts.txt"
       "http://stats.i2p/cgi-bin/newhosts.txt"
       "http://reg.i2p/export/hosts.txt"
-    ];   
+    ];
   };
   networking.firewall.allowedTCPPorts = [ 9111 ];
   networking.firewall.allowedUDPPorts = [ 9111 ];

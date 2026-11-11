@@ -1,5 +1,10 @@
 let
-  inherit (import ./cards.nix) tile heading history header;
+  inherit (import ./cards.nix)
+    tile
+    heading
+    history
+    header
+    ;
   s = "sensor.esphome_altherma___altherma_id___";
   b = "binary_sensor.esphome_altherma___altherma_id___";
 in
@@ -19,7 +24,9 @@ in
           cards = [
             (heading "So läuft die Wärmepumpe" "mdi:heat-pump-outline")
             (tile "sensor.haus_waermepumpe_status" "Betrieb" "mdi:heat-pump" "teal")
-            (tile "${s}altherma_estimated_power" "Elektrische Leistung · geschätzt" "mdi:lightning-bolt" "amber")
+            (tile "${s}altherma_estimated_power" "Elektrische Leistung · geschätzt" "mdi:lightning-bolt"
+              "amber"
+            )
             (tile "${s}outdoor_air_temp_r1t" "Draußen" "mdi:thermometer" "blue")
           ];
         }
@@ -57,9 +64,18 @@ in
           column_span = 2;
           cards = [
             (history "Heizwasser · 24 Stunden" [
-              { entity = "${s}leaving_water_temp_after_buh_r2t"; name = "Vorlauf"; }
-              { entity = "${s}inlet_water_temp_r4t"; name = "Rücklauf"; }
-              { entity = "${s}lw_setpoint_main"; name = "Soll"; }
+              {
+                entity = "${s}leaving_water_temp_after_buh_r2t";
+                name = "Vorlauf";
+              }
+              {
+                entity = "${s}inlet_water_temp_r4t";
+                name = "Rücklauf";
+              }
+              {
+                entity = "${s}lw_setpoint_main";
+                name = "Soll";
+              }
             ])
           ];
         }
@@ -67,8 +83,14 @@ in
           type = "grid";
           cards = [
             (history "Warmwasser · 24 Stunden" [
-              { entity = "${s}dhw_tank_temp_r5t"; name = "Speicher"; }
-              { entity = "${s}dhw_setpoint"; name = "Soll"; }
+              {
+                entity = "${s}dhw_tank_temp_r5t";
+                name = "Speicher";
+              }
+              {
+                entity = "${s}dhw_setpoint";
+                name = "Soll";
+              }
             ])
           ];
         }
@@ -93,49 +115,102 @@ in
               title = "Pumpe & Kältekreis";
               show_header_toggle = false;
               entities = [
-                { entity = "${s}water_pump_signal_0_max_100_stop"; name = "Pumpensignal · 0=max, 100=Stopp"; }
-                { entity = "${s}refrig_temp_liquid_side_r3t"; name = "Kältemittel · Flüssigkeitsseite"; }
+                {
+                  entity = "${s}water_pump_signal_0_max_100_stop";
+                  name = "Pumpensignal · 0=max, 100=Stopp";
+                }
+                {
+                  entity = "${s}refrig_temp_liquid_side_r3t";
+                  name = "Kältemittel · Flüssigkeitsseite";
+                }
               ];
             }
           ];
         }
         {
           type = "grid";
-          cards = [{
-            type = "entities";
-            title = "Betrieb & Schutzfunktionen";
-            show_header_toggle = false;
-            entities = [
-              { entity = "${b}thermostat_on_off"; name = "Heizanforderung"; }
-              { entity = "${b}defrost_operation"; name = "Abtauen"; }
-              { entity = "${b}freeze_protection"; name = "Frostschutz"; }
-              { entity = "${b}silent_mode"; name = "Leisemodus"; }
-              { entity = "${b}buh_step1"; name = "Zusatzheizung · Stufe 1"; }
-              { entity = "${b}buh_step2"; name = "Zusatzheizung · Stufe 2"; }
-              { entity = "${b}bsh"; name = "Warmwasser-Zusatzheizung"; }
-            ];
-          }];
+          cards = [
+            {
+              type = "entities";
+              title = "Betrieb & Schutzfunktionen";
+              show_header_toggle = false;
+              entities = [
+                {
+                  entity = "${b}thermostat_on_off";
+                  name = "Heizanforderung";
+                }
+                {
+                  entity = "${b}defrost_operation";
+                  name = "Abtauen";
+                }
+                {
+                  entity = "${b}freeze_protection";
+                  name = "Frostschutz";
+                }
+                {
+                  entity = "${b}silent_mode";
+                  name = "Leisemodus";
+                }
+                {
+                  entity = "${b}buh_step1";
+                  name = "Zusatzheizung · Stufe 1";
+                }
+                {
+                  entity = "${b}buh_step2";
+                  name = "Zusatzheizung · Stufe 2";
+                }
+                {
+                  entity = "${b}bsh";
+                  name = "Warmwasser-Zusatzheizung";
+                }
+              ];
+            }
+          ];
         }
         {
           type = "grid";
-          cards = [{
-            type = "entities";
-            title = "Diagnose";
-            show_header_toggle = false;
-            entities = [
-              { entity = "${s}i_u_operation_mode"; name = "Betriebsmodus · Rohwert"; }
-              { entity = "${s}error_code"; name = "Fehlercode"; }
-              { entity = "${s}error_detailed_code"; name = "Fehlerdetail"; }
-              { entity = "${s}error_type"; name = "Fehlertyp"; }
-            ];
-          }];
+          cards = [
+            {
+              type = "entities";
+              title = "Diagnose";
+              show_header_toggle = false;
+              entities = [
+                {
+                  entity = "${s}i_u_operation_mode";
+                  name = "Betriebsmodus · Rohwert";
+                }
+                {
+                  entity = "${s}error_code";
+                  name = "Fehlercode";
+                }
+                {
+                  entity = "${s}error_detailed_code";
+                  name = "Fehlerdetail";
+                }
+                {
+                  entity = "${s}error_type";
+                  name = "Fehlertyp";
+                }
+              ];
+            }
+          ];
         }
         {
           type = "grid";
           column_span = 3;
           cards = [
-            (history "Elektrische Leistung · geschätzt" [{ entity = "${s}altherma_estimated_power"; name = "Leistung"; }])
-            (history "Verdichterfrequenz" [{ entity = "${s}inv_frequency_rps"; name = "Verdichter"; }])
+            (history "Elektrische Leistung · geschätzt" [
+              {
+                entity = "${s}altherma_estimated_power";
+                name = "Leistung";
+              }
+            ])
+            (history "Verdichterfrequenz" [
+              {
+                entity = "${s}inv_frequency_rps";
+                name = "Verdichter";
+              }
+            ])
           ];
         }
       ];

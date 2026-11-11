@@ -1,5 +1,9 @@
-{ config, pkgs, lib, ... }:
-
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   sam = config.services.i2pd.proto.sam;
@@ -13,17 +17,18 @@ in
     prune = 10240;
     dbCache = 16;
 
-    extraConfig =
-    ''
-      server=1
-      maxconnections=8
-      blocksonly=1
-      bind=[::]
-      natpmp=0
+    extraConfig = ''
+      
+            server=1
+            maxconnections=8
+            blocksonly=1
+            bind=[::]
+            natpmp=0
     ''
     + lib.optionalString sam.enable ''
-        i2psam=${sam.address}:${toString sam.port}
-      '';
+      
+              i2psam=${sam.address}:${toString sam.port}
+    '';
   };
 
   networking.firewall.allowedTCPPorts = [ 8333 ];
@@ -41,7 +46,7 @@ in
 
   systemd.services.bitcoind-main = {
     # disable wanted by multiusertarger
-    wantedBy = [];
+    wantedBy = [ ];
     serviceConfig = {
       Nice = 15;
       IOSchedulingClass = "idle";

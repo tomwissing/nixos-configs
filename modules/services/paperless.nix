@@ -1,13 +1,19 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   paperlessUser = config.services.paperless.user;
   consumptionDir = config.services.paperless.consumptionDir;
-in {
+in
+{
   services.paperless = {
     enable = true;
     settings = {
-      PAPERLESS_CONSUMER_POLLING=60;
+      PAPERLESS_CONSUMER_POLLING = 60;
     };
   };
   fileSystems."${consumptionDir}" = {

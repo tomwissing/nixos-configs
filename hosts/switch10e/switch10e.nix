@@ -7,12 +7,24 @@
 # Day-to-day: rebuild from the MSI, not from the tablet
 #   nixos-rebuild switch --flake .#switch10e \
 #     --target-host tom@switch10e --use-remote-sudo
-{ config, pkgs, lib, pkgsMainline, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  pkgsMainline,
+  ...
+}:
 
 let
   sessionSetup = pkgs.writeShellApplication {
     name = "switch10e-session-setup";
-    runtimeInputs = [ pkgs.xfconf pkgs.xfce4-panel pkgs.gnugrep pkgs.coreutils pkgs.xset ];
+    runtimeInputs = [
+      pkgs.xfconf
+      pkgs.xfce4-panel
+      pkgs.gnugrep
+      pkgs.coreutils
+      pkgs.xset
+    ];
     text = ''
       # Keep the display awake and prevent XFCE from suspending on inactivity.
       for source in ac battery; do
@@ -115,7 +127,7 @@ in
       forcei686 = true;
       device = "nodev";
       efiInstallAsRemovable = true; # installs /EFI/BOOT/BOOTIA32.EFI
-      configurationLimit = 5;       # 32 GB eMMC - keep generations short
+      configurationLimit = 5; # 32 GB eMMC - keep generations short
       # Firmware drops Linux entries from BootOrder, even with the loader
       # marked trusted, but retains "Windows Boot Manager" at this path.
       # This is still IA32 GRUB loading NixOS; Windows is not installed.

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   age.secrets.miniflux.file = ../../secrets/miniflux.age;
@@ -18,14 +23,14 @@
       LOG_LEVEL = "error";
       CLEANUP_FREQUENCY_HOURS = 48;
 
-      FETCHER_ALLOW_PRIVATE_NETWORKS=1;
+      FETCHER_ALLOW_PRIVATE_NETWORKS = 1;
     };
     adminCredentialsFile = config.age.secrets.miniflux.path;
   };
 
   services.nginx = {
     enable = true;
-    
+
     # Use nginx with QUIC/HTTP3 support
     # package = pkgs.nginxQuic;
 
@@ -34,9 +39,10 @@
     recommendedOptimisation = true;
 
     appendHttpConfig = ''
-      access_log off;
+      
+            access_log off;
     '';
-    
+
     virtualHosts = {
       "_default" = {
         default = true;
@@ -53,15 +59,18 @@
           proxyPass = "http://127.0.0.1:8080";
           proxyWebsockets = true; # allows live updates if needed
           extraConfig = ''
-            add_header Alt-Svc 'h3=":443"; ma=86400';
+            
+                        add_header Alt-Svc 'h3=":443"; ma=86400';
           '';
         };
       };
     };
   };
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
   networking.firewall.allowedUDPPorts = [ 443 ];
-
 
   security.acme = {
     acceptTerms = true;
@@ -73,5 +82,5 @@
       environmentFile = config.age.secrets.cloudflare-dns.path;
     };
   };
-  users.users.nginx.extraGroups = ["acme"];
+  users.users.nginx.extraGroups = [ "acme" ];
 }

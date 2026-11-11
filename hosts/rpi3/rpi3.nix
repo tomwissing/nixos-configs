@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   system.stateVersion = "25.05";
@@ -25,9 +30,13 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/9a6ffedb-a027-4ce4-915f-9e4382183442";
     fsType = "ext4";
-    options = [ "noatime" "nodiratime" "commit=60" ];
+    options = [
+      "noatime"
+      "nodiratime"
+      "commit=60"
+    ];
   };
-  fileSystems."/mnt/sd-boot" ={
+  fileSystems."/mnt/sd-boot" = {
     device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
     fsType = "ext4";
   };
@@ -39,7 +48,10 @@
   };
 
   # Kernel params
-  boot.kernelParams = [ "panic=30" "boot.panic_on_fail" ];
+  boot.kernelParams = [
+    "panic=30"
+    "boot.panic_on_fail"
+  ];
 
   services.watchdogd.enable = true;
 
@@ -63,20 +75,22 @@
 
   # Journald in RAM
   services.journald = {
-      extraConfig = "MaxRetentionSec=1d";
+    extraConfig = "MaxRetentionSec=1d";
   };
 
-  nix = let commonServiceSettings = {
-    automatic = true;
-    persistent = true;
-    dates = "weekly";
-    randomizedDelaySec = "1h";
-  };
-  in {
-    gc = commonServiceSettings // {
-      options = "--delete-older-than 7d";
+  nix =
+    let
+      commonServiceSettings = {
+        automatic = true;
+        persistent = true;
+        dates = "weekly";
+        randomizedDelaySec = "1h";
+      };
+    in
+    {
+      gc = commonServiceSettings // {
+        options = "--delete-older-than 7d";
+      };
+      optimise = commonServiceSettings;
     };
-    optimise = commonServiceSettings;
-  };
 }
-

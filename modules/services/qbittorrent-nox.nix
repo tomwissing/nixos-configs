@@ -1,9 +1,14 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-	services.qbittorrent = {
-		enable = true;
-		webuiPort = 8001;
-		torrentingPort = 7000;
-	};
+  services.qbittorrent = {
+    enable = true;
+    webuiPort = 8001;
+    torrentingPort = 7000;
+  };
 }

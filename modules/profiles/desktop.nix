@@ -18,14 +18,14 @@
       autosuggestions = {
         enable = true;
         strategy = [
-	  "match_prev_cmd"
-	  "completion"
-	];
+          "match_prev_cmd"
+          "completion"
+        ];
       };
       syntaxHighlighting.enable = true;
     };
   };
-  
+
   users.defaultUserShell = pkgs.zsh;
 
   environment.systemPackages = [

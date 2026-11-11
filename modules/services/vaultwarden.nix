@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   age.secrets.vaultwarden.file = ../../secrets/vaultwarden.age;
@@ -11,15 +16,15 @@
     environmentFile = config.age.secrets.vaultwarden.path;
 
     config = {
-        # Refer to https://github.com/dani-garcia/vaultwarden/blob/main/.env.template
-        # DOMAIN = "https://bitwarden.example.com";
-        SIGNUPS_ALLOWED = false;
+      # Refer to https://github.com/dani-garcia/vaultwarden/blob/main/.env.template
+      # DOMAIN = "https://bitwarden.example.com";
+      SIGNUPS_ALLOWED = false;
 
-        ROCKET_ADDRESS = "127.0.0.1";
-        ROCKET_PORT = 8222;
-        ROCKET_LOG = "critical";
+      ROCKET_ADDRESS = "127.0.0.1";
+      ROCKET_PORT = 8222;
+      ROCKET_LOG = "critical";
     };
-};
+  };
 
   services.nginx = {
     virtualHosts = {
@@ -32,7 +37,8 @@
           proxyPass = "http://127.0.0.1:8222";
           proxyWebsockets = true; # allows live updates if needed
           extraConfig = ''
-            add_header Alt-Svc 'h3=":443"; ma=86400';
+            
+                        add_header Alt-Svc 'h3=":443"; ma=86400';
           '';
         };
       };

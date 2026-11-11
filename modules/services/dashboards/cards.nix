@@ -6,7 +6,12 @@
   };
   tile = entity: name: icon: color: {
     type = "tile";
-    inherit entity name icon color;
+    inherit
+      entity
+      name
+      icon
+      color
+      ;
     grid_options.columns = 12;
     tap_action.action = "more-info";
   };

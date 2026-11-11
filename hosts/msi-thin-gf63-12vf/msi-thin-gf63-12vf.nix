@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -24,8 +29,12 @@
   hardware.enableRedistributableFirmware = true;
   hardware.graphics.enable = true;
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "nvidia-x11" "nvidia-settings" ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "nvidia-x11"
+      "nvidia-settings"
+    ];
 
   # Hybrid graphics: Intel UHD renders by default, RTX 4060 Max-Q on demand
   services.xserver.videoDrivers = [ "nvidia" ];

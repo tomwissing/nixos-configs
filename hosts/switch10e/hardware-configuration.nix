@@ -8,7 +8,12 @@
 # called out. Everything here is built into the kernel via nixpkgs'
 # autoModules, so no kernel patching is required - which holds both for the
 # stock 6.18 default and for the mainline 7.4-rc1 the host now runs.
-{ config, lib, modulesPath, ... }:
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];

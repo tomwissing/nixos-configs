@@ -1,19 +1,30 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-    services.adguardhome = {
-      enable = true;
+  services.adguardhome = {
+    enable = true;
   };
-  
+
   users.users.adguardhome = {
     isSystemUser = true;
     group = "adguardhome";
-    extraGroups = ["acme"];
+    extraGroups = [ "acme" ];
   };
-  users.groups.adguardhome = {};
+  users.groups.adguardhome = { };
 
-  networking.firewall.allowedUDPPorts = [ 53 853 ];
-  networking.firewall.allowedTCPPorts = [ 53 853 ];
+  networking.firewall.allowedUDPPorts = [
+    53
+    853
+  ];
+  networking.firewall.allowedTCPPorts = [
+    53
+    853
+  ];
 
   services.nginx = {
     enable = true;
@@ -27,7 +38,8 @@
           proxyPass = "http://127.0.0.1:3000";
           proxyWebsockets = true; # allows live updates if needed
           extraConfig = ''
-            add_header Alt-Svc 'h3=":443"; ma=86400';
+            
+                        add_header Alt-Svc 'h3=":443"; ma=86400';
           '';
         };
         locations."/" = {

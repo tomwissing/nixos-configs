@@ -1,10 +1,16 @@
-{ config, lib, pkgs, modulesPath, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  inputs,
+  ...
+}:
 
-  
 {
   networking.hostName = "wsl";
 
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   nix.settings.extra-platforms = config.boot.binfmt.emulatedSystems;
 
   wsl.enable = true;
@@ -14,18 +20,18 @@
 
   virtualisation.docker.enable = true;
 
-   users.users.tom = {
+  users.users.tom = {
     extraGroups = [ "docker" ];
     packages = with pkgs; [
       fastfetchMinimal
       git
     ];
-   };
+  };
 
   environment.systemPackages = with pkgs; [
     inputs.agenix.packages.x86_64-linux.default
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
+    #   wget
     htop
   ];
 

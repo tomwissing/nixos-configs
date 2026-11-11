@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   services.unbound = {
@@ -6,7 +11,7 @@
     resolveLocalQueries = false;
     settings = {
       server = {
-        interface =  "127.0.0.1";
+        interface = "127.0.0.1";
         port = 5353;
 
         num-threads = 2;

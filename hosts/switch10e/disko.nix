@@ -33,23 +33,46 @@
             size = "100%";
             content = {
               type = "btrfs";
-              extraArgs = [ "-f" "-L" "nixos" ];
+              extraArgs = [
+                "-f"
+                "-L"
+                "nixos"
+              ];
               subvolumes = {
                 "@" = {
                   mountpoint = "/";
-                  mountOptions = [ "compress-force=zstd:3" "noatime" "ssd" "space_cache=v2" ];
+                  mountOptions = [
+                    "compress-force=zstd:3"
+                    "noatime"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
                 };
                 "@home" = {
                   mountpoint = "/home";
-                  mountOptions = [ "compress-force=zstd:3" "noatime" "ssd" "space_cache=v2" ];
+                  mountOptions = [
+                    "compress-force=zstd:3"
+                    "noatime"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
                 };
                 "@nix" = {
                   mountpoint = "/nix";
-                  mountOptions = [ "compress-force=zstd:3" "noatime" "ssd" "space_cache=v2" ];
+                  mountOptions = [
+                    "compress-force=zstd:3"
+                    "noatime"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
                 };
                 "@snapshots" = {
                   mountpoint = "/.snapshots";
-                  mountOptions = [ "noatime" "ssd" "space_cache=v2" ];
+                  mountOptions = [
+                    "noatime"
+                    "ssd"
+                    "space_cache=v2"
+                  ];
                 };
               };
             };

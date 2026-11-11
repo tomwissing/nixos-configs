@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   age.secrets.wireguard-pr.file = ../../secrets/rpi3-wireguard-pr.age;
   age.secrets.wireguard-sh.file = ../../secrets/rpi3-wireguard-sh.age;
@@ -10,7 +15,10 @@
 
     # Interface configuration
     address = [ "10.7.0.5/24" ];
-    dns = [ "94.140.14.14" "94.140.15.15" ];
+    dns = [
+      "94.140.14.14"
+      "94.140.15.15"
+    ];
 
     privateKeyFile = config.age.secrets.wireguard-pr.path;
 
