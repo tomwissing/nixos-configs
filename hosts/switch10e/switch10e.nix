@@ -194,7 +194,7 @@ in
     [Desktop Entry]
     Type=Application
     Name=Home Assistant kiosk
-    Exec=${pkgs.firefox-esr}/bin/firefox --kiosk https://home.sh.tomwissing.de
+    Exec=${lib.getExe config.programs.firefox.package} --kiosk https://home.sh.tomwissing.de
     OnlyShowIn=XFCE;
     Terminal=false
   '';
