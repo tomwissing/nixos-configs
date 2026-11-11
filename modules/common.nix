@@ -21,6 +21,9 @@ in
     "nix-command"
     "flakes"
   ];
+  # Allow tom to upload unsigned store paths over SSH for remote deployments.
+  nix.settings.trusted-users = [ "tom" ];
+
   # Shared user configuration
   users.users.tom = {
     isNormalUser = true;
