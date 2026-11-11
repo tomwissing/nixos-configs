@@ -218,10 +218,10 @@ nix eval --raw .#nixosConfigurations.switch10e.config.system.build.toplevel.drvP
 ```
 
 The primary package set follows `nixos-26.05`. `pkgsUnstable` comes from a
-separately pinned `nixpkgs-unstable-small` input, also used for the tablet's
-`linuxPackages_testing` kernel until 7.4 is stable. The comments in `flake.nix`
-explain the current pin. Because this input uses an explicit revision, picking
-up newer unstable packages requires changing that revision first.
+separately locked `nixpkgs-unstable-small` input, also used for the tablet's
+`linuxPackages_testing` kernel until 7.4 is stable. Update it with
+`nix flake update nixpkgs-unstable-small` and check the resolved kernel version
+before deploying the tablet.
 
 Update one dependency deliberately, for example the primary package set:
 
