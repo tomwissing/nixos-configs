@@ -22,8 +22,8 @@ let
     "sensor.garten_total_energieabgabe_uber_lebensdauer"
     "sensor.balkonkraftwerk_total_energieabgabe_uber_lebensdauer"
   ];
-  # Missing data must make the aggregate unavailable, rather than silently
-  # showing a smaller total or creating false resets in energy statistics.
+  # Keep energy totals unavailable when data is missing to avoid false resets
+  # in statistics. Instantaneous power can count offline inverters as zero.
   sumSensor =
     {
       id,
@@ -33,6 +33,7 @@ let
       deviceClass,
       stateClass,
       precision,
+      allowMissing ? false,
     }:
     {
       inherit name;
@@ -41,9 +42,11 @@ let
       unit_of_measurement = unit;
       device_class = deviceClass;
       state_class = stateClass;
-      availability = "{{ [${
-        builtins.concatStringsSep ", " (map (e: "is_number(states('${e}'))") sources)
-      }] | min }}";
+      availability =
+        if allowMissing then
+          "{{ true }}"
+        else
+          "{{ [${builtins.concatStringsSep ", " (map (e: "is_number(states('${e}'))") sources)}] | min }}";
       state = "{{ (${
         builtins.concatStringsSep " + " (map (e: "states('${e}') | float(0)") sources)
       }) | round(${toString precision}) }}";
@@ -71,6 +74,7 @@ in
               id = "solar_pv_leistung_gesamt";
               name = "Solarleistung gesamt";
               sources = pvPower;
+              allowMissing = true;
               unit = "W";
               deviceClass = "power";
               stateClass = "measurement";
