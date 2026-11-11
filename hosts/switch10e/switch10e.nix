@@ -11,7 +11,7 @@
   config,
   pkgs,
   lib,
-  pkgsMainline,
+  pkgsUnstable,
   ...
 }:
 
@@ -101,18 +101,13 @@ in
   time.timeZone = "Europe/Berlin";
   services.xserver.xkb.layout = "de";
 
-  # --- Kernel: mainline 7.4-rc1 ----------------------------------------
-  # 7.4 moves RTL8723BS off the (now deleted) staging driver and onto the
-  # mac80211-based rtw88 driver. No boot.kernelPatches is needed:
-  # x86_64's platform sets autoModules, which answers "m" to every
-  # tristate, so CONFIG_RTW88_8723BS comes out =m (it only `depends on
-  # MMC`, which the eMMC root guarantees). Verified against the generated
-  # config. Adding it via structuredExtraConfig anyway would produce an
-  # identical .config but a different derivation, trading the prebuilt
-  # kernel on cache.nixos.org for a full local compile.
-  # The firmware it wants, rtw88/rtw8723b_fw.bin, is already in the
-  # linux-firmware 20261019 that enableRedistributableFirmware pulls in.
-  boot.kernelPackages = pkgsMainline.linuxPackages_testing;
+  # --- Kernel: shared unstable testing kernel until 7.4 is stable --------
+  # This follows the shared unstable pin; linuxPackages_testing can fall
+  # back to the latest stable kernel when the packaged RC is older.
+  # 7.4 moves RTL8723BS from staging to the mac80211-based rtw88 driver.
+  # nixpkgs' autoModules enables the driver without custom kernel patches,
+  # and enableRedistributableFirmware supplies its firmware.
+  boot.kernelPackages = pkgsUnstable.linuxPackages_testing;
 
   # --- Bootloader ------------------------------------------------------
   # The SW3-013 has IA32 (32-bit) UEFI firmware and no CSM at all, so:

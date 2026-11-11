@@ -218,14 +218,15 @@ nix eval --raw .#nixosConfigurations.switch10e.config.system.build.toplevel.drvP
 ```
 
 The primary package set follows `nixos-26.05`. `pkgsUnstable` comes from a
-separately pinned `nixpkgs-unstable-small` input; `pkgsMainline` comes from
-`nixpkgs-mainline` for the tablet's testing kernel. The comments in `flake.nix`
-explain the current pins.
+separately pinned `nixpkgs-unstable-small` input, also used for the tablet's
+`linuxPackages_testing` kernel until 7.4 is stable. The comments in `flake.nix`
+explain the current pin. Because this input uses an explicit revision, picking
+up newer unstable packages requires changing that revision first.
 
-Update one dependency deliberately, for example the mainline kernel package set:
+Update one dependency deliberately, for example the primary package set:
 
 ```sh
-nix flake update nixpkgs-mainline
+nix flake update nixpkgs
 ```
 
 Use `nix flake update` to update all inputs within their configured references.

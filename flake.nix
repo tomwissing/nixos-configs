@@ -9,14 +9,6 @@
     # cached). Revert to branch after the fix lands.
     nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/91230cf4a7d7f0f6c5d98b1bc69396fd3981a5dd";
 
-    # In-flight mainline RCs. nixpkgs' linux_testing only yields an RC once
-    # kernels-org.json on the branch has it, and both pins above still
-    # resolve linux_testing to 7.3.1 (their testing=7.3-rc7 is older than
-    # their linux_latest=linux_7_3, so the "latest wins" branch triggers).
-    # flake.lock freezes the rev; run `nix flake update nixpkgs-mainline`
-    # to pick up the next RC.
-    nixpkgs-mainline.url = "github:NixOS/nixpkgs/nixos-unstable";
-
     nixos-wsl = {
       url = "github:nix-community/nixos-wsl/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,14 +37,8 @@
           inherit system;
           config.allowUnfree = true;
         };
-      pkgsMainlineFor =
-        system:
-        import inputs.nixpkgs-mainline {
-          inherit system;
-        };
       mkSpecialArgs = system: {
         pkgsUnstable = pkgsUnstableFor system;
-        pkgsMainline = pkgsMainlineFor system;
         inherit inputs;
       };
     in
