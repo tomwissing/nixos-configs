@@ -98,6 +98,14 @@ in
   networking.hostName = "switch10e";
   networking.networkmanager.enable = true;
 
+  # The ITE keyboard/touchpad is behind this internal hub. Runtime autosuspend
+  # (zero-delay on this device) coincides with repeated disconnects and failed
+  # re-enumeration, so keep the hub powered while allowing other USB devices
+  # to use the normal power policy.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="05e3", ATTR{idProduct}=="0608", ATTR{power/control}="on"
+  '';
+
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "de_DE.UTF-8";
   services.xserver.xkb.layout = "de";
