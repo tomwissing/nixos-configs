@@ -99,6 +99,7 @@ in
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Berlin";
+  i18n.defaultLocale = "de_DE.UTF-8";
   services.xserver.xkb.layout = "de";
 
   # --- Kernel: shared unstable testing kernel until 7.4 is stable --------
@@ -194,7 +195,7 @@ in
     [Desktop Entry]
     Type=Application
     Name=Home Assistant kiosk
-    Exec=${lib.getExe config.programs.firefox.package} --kiosk https://home.sh.tomwissing.de
+    Exec=${lib.getExe config.programs.firefox.package} --kiosk https://home.sh.tomwissing.de/zuhause-energie/jetzt
     OnlyShowIn=XFCE;
     Terminal=false
   '';
@@ -219,6 +220,11 @@ in
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-esr;
+    languagePacks = [ "de" ];
+    preferences = {
+      "intl.locale.requested" = "de";
+      "intl.accept_languages" = "de-DE,de,en-US,en";
+    };
   };
 
   # --- 32 GB eMMC housekeeping -----------------------------------------

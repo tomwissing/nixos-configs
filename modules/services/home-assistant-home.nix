@@ -8,6 +8,9 @@ let
   appliancePowerW = 2000;
   exportMarginW = 300;
   exportThresholdW = appliancePowerW + exportMarginW;
+  # The SPH entry refreshes every 30 minutes (:00 and :30). Allow five
+  # additional minutes for API or coordinator delays before treating it stale.
+  maxDataAgeSeconds = 2100;
   soc = "sensor.__growatt_sph_id___ladezustand";
   charge = "sensor.__growatt_sph_id___batterieaufladung";
   discharge = "sensor.__growatt_sph_id___batterieentladung_w";
@@ -22,13 +25,13 @@ let
     {% set ns = namespace(ok=true) %}
     {% set measured = as_timestamp(states('sensor.__growatt_sph_id___letzte_datenaktualisierung'), 0) %}
     {% set age = as_timestamp(now()) - measured %}
-    {% if measured <= 0 or age < -60 or age > 900 %}
+    {% if measured <= 0 or age < -60 or age > ${toString maxDataAgeSeconds} %}
       {% set ns.ok = false %}
     {% endif %}
     {% for entity in ['${soc}', '${charge}', '${discharge}', '${gridImport}', '${gridExport}'] %}
       {% if not is_number(states(entity)) %}
         {% set ns.ok = false %}
-      {% elif as_timestamp(now()) - as_timestamp(states[entity].last_reported, 0) > 900 %}
+      {% elif as_timestamp(now()) - as_timestamp(states[entity].last_reported, 0) > ${toString maxDataAgeSeconds} %}
         {% set ns.ok = false %}
       {% endif %}
     {% endfor %}

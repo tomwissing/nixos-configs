@@ -38,7 +38,7 @@ in
           cards = [
             (notice "Jetzt starten" ''
               # ☀️ Jetzt passt es gut
-              Die Batterie ist mindestens **90 %** geladen und es geht seit fünf Minuten genug Strom ins Netz.
+              Die Batterie ist mindestens **90 %** geladen und die aktuellen Messwerte zeigen seit fünf Minuten genug Einspeisung.
 
               **Ein großes Gerät kann jetzt starten**, zum Beispiel Waschmaschine oder Spülmaschine.
             '')
@@ -54,7 +54,7 @@ in
             '')
             (notice "Überschuss wird geprüft" ''
               # 🌤️ Sieht gut aus – kurz abwarten
-              Es ist genug Überschuss da. Wenn das fünf Minuten so bleibt, erscheint hier **„Jetzt passt es gut“**.
+              Es ist genug Überschuss da. Wenn die aktuellen Messwerte fünf Minuten lang so bleiben, erscheint hier **„Jetzt passt es gut“**.
             '')
             (notice "Wenig Überschuss" ''
               # 🌥️ Noch wenig Strom übrig
@@ -157,7 +157,7 @@ in
               content = ''
                 **So wird „Jetzt starten“ entschieden:** Batterie mindestens 90 %, mindestens 2.300 W Einspeisung seit fünf Minuten, weniger als 100 W Netzbezug und keine nennenswerte Batterieentladung. Das ist für ungefähr **ein 2.000-W-Gerät** gedacht.
 
-                Growatt liefert Cloud-Werte ungefähr alle fünf Minuten. Die Wärmepumpe wird hier nur angezeigt und weiterhin normal geregelt.
+                Der Growatt SPH wird wegen des API-Limits alle 30 Minuten (:00 und :30) abgefragt; die andere Anlage um :15 und :45. SPH-Werte gelten bis zu 35 Minuten als aktuell, damit eine kurze API-Verzögerung nicht sofort die Empfehlung unterdrückt. Zwischen den Messungen können kurze Überschussfenster trotzdem unbemerkt bleiben. Die Wärmepumpe wird hier nur angezeigt und weiterhin normal geregelt.
               '';
               grid_options.columns = "full";
             }
