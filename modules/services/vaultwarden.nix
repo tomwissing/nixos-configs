@@ -30,16 +30,13 @@
     virtualHosts = {
       "warden.sh.tomwissing.de" = {
         forceSSL = true;
-        quic = true;
-        http3 = true;
+        http2 = false;
+        http3 = false;
+        quic = false;
         useACMEHost = "sh.tomwissing.de";
         locations."/" = {
           proxyPass = "http://127.0.0.1:8222";
           proxyWebsockets = true; # allows live updates if needed
-          extraConfig = ''
-            
-                        add_header Alt-Svc 'h3=":443"; ma=86400';
-          '';
         };
       };
     };
