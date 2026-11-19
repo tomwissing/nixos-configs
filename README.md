@@ -26,6 +26,24 @@ subvolumes for the root filesystem, home directories, Nix store, snapshots, and
 an 8 GB swapfile. The layout describes an existing SSD with a BitLocker data
 partition; disk paths and partition boundaries are specific to this machine.
 
+The reusable [PowerDevil Home Manager module](modules/home-manager/powerdevil-power-states.nix)
+is exported as `homeManagerModules.powerdevilPowerStates`. It maps AC and
+battery power to both system power profiles and KScreen display modes:
+
+```nix
+services.powerdevilPowerStates = {
+  enable = true;
+  output = "eDP-1";
+  acMode = "1920x1080@144";
+  batteryMode = "1920x1080@60";
+  acProfile = "balanced";
+  batteryProfile = "power-saver";
+};
+```
+
+The MSI imports it for `tom` through
+[plasma-power-profiles.nix](modules/profiles/plasma-power-profiles.nix).
+
 [modules/profiles/desktop.nix](modules/profiles/desktop.nix) adds Zsh, Firefox
 ESR, desktop applications, selected tools from the unstable package set, and
 AArch64 emulation for building Raspberry Pi packages.

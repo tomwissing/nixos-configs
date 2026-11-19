@@ -61,6 +61,8 @@
     };
   };
   services.desktopManager.plasma6.enable = true;
+  # PowerDevil uses PPD for the Balanced and Power Saver profiles.
+  services.power-profiles-daemon.enable = true;
 
   # Unlock KWallet with the LUKS password on autologin (see NixOS wiki: KDE)
   systemd.services.plasmalogin.serviceConfig.KeyringMode = "inherit";

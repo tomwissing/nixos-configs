@@ -11,6 +11,10 @@
       url = "github:nix-community/nixos-wsl/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,6 +45,9 @@
       };
     in
     {
+      # Reusable Home Manager module for PowerDevil profiles and power-state hooks.
+      homeManagerModules.powerdevilPowerStates = import ./modules/home-manager/powerdevil-power-states.nix;
+
       formatter = nixpkgs.lib.genAttrs [
         "x86_64-linux"
         "aarch64-linux"
@@ -97,7 +104,9 @@
             modules = [
               inputs.disko.nixosModules.default
               agenix.nixosModules.default
+              inputs.home-manager.nixosModules.home-manager
               ./hosts/msi-thin-gf63-12vf/msi-thin-gf63-12vf.nix
+              ./modules/profiles/plasma-power-profiles.nix
               ./modules/profiles/desktop.nix
               ./modules/common.nix
             ];
