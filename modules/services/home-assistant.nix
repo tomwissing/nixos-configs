@@ -101,9 +101,8 @@
     virtualHosts = {
       "home.sh.tomwissing.de" = {
         forceSSL = true;
-        http2 = false;
-        http3 = false;
-        quic = false;
+        quic = true;
+        http3 = true;
         useACMEHost = "sh.tomwissing.de";
         extraConfig = ''
           allow 192.168.178.0/24;
@@ -118,6 +117,7 @@
           proxyWebsockets = true;
           extraConfig = ''
             proxy_buffering off;
+            add_header Alt-Svc 'h3=":443"; ma=86400';
           '';
         };
       };
@@ -128,4 +128,5 @@
     80
     443
   ];
+  networking.firewall.allowedUDPPorts = [ 443 ];
 }
