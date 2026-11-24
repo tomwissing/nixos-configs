@@ -74,9 +74,7 @@
   services.fstrim.enable = true;
 
   # Journald in RAM
-  services.journald = {
-    extraConfig = "MaxRetentionSec=1d";
-  };
+  services.journald.settings.Journal.MaxRetentionSec = "1d";
 
   nix =
     let

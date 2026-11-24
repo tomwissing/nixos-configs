@@ -6,10 +6,14 @@
 }:
 
 let
-  sam = config.services.i2pd.proto.sam;
+  sam = config.services.i2pd.settings.sam;
 in
 {
-  services.i2pd.proto.sam.enable = true;
+  services.i2pd.settings.sam = {
+    enabled = true;
+    address = "127.0.0.1";
+    port = 7656;
+  };
 
   services.bitcoind.main = {
     enable = true;
@@ -25,7 +29,7 @@ in
             bind=[::]
             natpmp=0
     ''
-    + lib.optionalString sam.enable ''
+    + lib.optionalString sam.enabled ''
       
               i2psam=${sam.address}:${toString sam.port}
     '';

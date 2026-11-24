@@ -2,17 +2,17 @@
   description = "NixOS flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.11-small";
     # Shared unstable packages and the tablet's testing kernel.
     # flake.lock pins the revision; update this input to pick up newer builds.
     nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
 
     nixos-wsl = {
-      url = "github:nix-community/nixos-wsl/release-26.05";
+      url = "github:nix-community/nixos-wsl/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agenix = {
